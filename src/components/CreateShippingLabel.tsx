@@ -59,8 +59,8 @@ export default function Index() {
 
     try {
       const response = await fetch(
-        "https://print-shipping-label-server.herokuapp.com/create_label",
-        // "http://localhost:1337/create_label",
+        // "https://print-shipping-label-server.herokuapp.com/create_label",
+        "http://localhost:1337/create_label",
         settings
       );
 
@@ -88,10 +88,8 @@ export default function Index() {
     setFormInput({ [name]: newValue });
   };
 
-  shippingLabel && console.log("state value: ", shippingLabel);
-
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", height: "90vh", width: "90vw" }}>
       <Paper elevation={3} style={{ width: "50%" }}>
         <form
           onSubmit={handleSubmit}
@@ -112,6 +110,7 @@ export default function Index() {
               margin="normal"
               inputRef={textInput}
               value={formInput.senderName}
+              sx={{ m: 1 }}
             />
             <TextField
               required
@@ -122,8 +121,10 @@ export default function Index() {
               margin="normal"
               inputRef={textInput}
               value={formInput.fromAddress}
+              sx={{ m: 1 }}
             />
           </div>
+          <h4>Who are you sending to?</h4>
           <div>
             <TextField
               required
@@ -134,6 +135,7 @@ export default function Index() {
               margin="normal"
               inputRef={textInput}
               value={formInput.recipentFirstName}
+              sx={{ m: 1 }}
             />
             <TextField
               required
@@ -143,64 +145,73 @@ export default function Index() {
               onChange={handleInput}
               margin="normal"
               value={formInput.recipentLastName}
+              sx={{ m: 1 }}
             />
           </div>
           <div>
             <TextField
               required
               id="address1"
-              label="Shipping Address 1"
+              label="Address 1"
               name="address1"
               onChange={handleInput}
               margin="normal"
               value={formInput.address1}
+              sx={{ m: 1, width: "25ch" }}
             />
             <TextField
               required
               id="address2"
-              label="Shipping Address 2"
+              label="Address 2"
               name="address2"
               onChange={handleInput}
               margin="normal"
               value={formInput.address2}
+              sx={{ m: 1, width: "25ch" }}
             />
+            <br />
             <TextField
               required
               id="city"
-              label="Shipping City"
+              label="City"
               name="city"
               onChange={handleInput}
               margin="normal"
               value={formInput.city}
+              sx={{ m: 1 }}
             />
             <TextField
               required
               id="state"
-              label="Shipping State"
+              label="State"
               name="state"
               onChange={handleInput}
               margin="normal"
               value={formInput.state}
+              sx={{ m: 1 }}
             />
             <TextField
               required
               id="postalCode"
-              label="Shipping Postal Code"
+              label="Postal Code"
               name="postalCode"
               onChange={handleInput}
               margin="normal"
               value={formInput.postalCode}
+              sx={{ m: 1 }}
             />
             <TextField
               required
               id="country"
-              label="Shipping Country"
+              label="Country"
               name="country"
               onChange={handleInput}
               margin="normal"
               value={formInput.country}
+              sx={{ m: 1 }}
             />
           </div>
+          <h4>What size is your parcel?</h4>
           <div>
             <TextField
               required
@@ -213,6 +224,7 @@ export default function Index() {
                   <InputAdornment position="end">lb</InputAdornment>
                 ),
               }}
+              sx={{ m: 1 }}
               margin="normal"
               value={formInput.weight}
             />
@@ -227,6 +239,7 @@ export default function Index() {
                   <InputAdornment position="end">in</InputAdornment>
                 ),
               }}
+              sx={{ m: 1 }}
               margin="normal"
               value={formInput.length}
             />
@@ -243,6 +256,7 @@ export default function Index() {
               }}
               margin="normal"
               value={formInput.width}
+              sx={{ m: 1 }}
             />
             <TextField
               required
@@ -255,6 +269,7 @@ export default function Index() {
                   <InputAdornment position="end">in</InputAdornment>
                 ),
               }}
+              sx={{ m: 1 }}
               margin="normal"
               value={formInput.height}
             />
