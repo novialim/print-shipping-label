@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "gh-pages": "^4.0.0",
     "npm-run-all": "^4.1.5",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -27,6 +28,8 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start:server": "cd server && ts-node-dev --respawn --transpile-only ./server.ts && wait-on tcp:5000",
     "start:app": "react-app-rewired start",
     "start": "run-p --race start:server start:app",
@@ -35,6 +38,7 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
+  "homepage": "https://novialim.github.io/print-shipping-label/",
   "proxy": "http://localhost:5000/",
   "eslintConfig": {
     "extends": [
