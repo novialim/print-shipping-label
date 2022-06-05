@@ -37,7 +37,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "postinstall":"tsc"
+    "postinstall": "tsc"
   },
   "homepage": "https://novialim.github.io/print-shipping-label/",
   "proxy": "http://localhost:5000/",

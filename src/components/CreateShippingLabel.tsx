@@ -46,10 +46,10 @@ export default function Index() {
   );
 
   const [shippingLabel, setShippingLabel] = useState("");
+  const [error, setError] = useState("");
 
   const createLabel = async () => {
     let data = { formInput };
-    console.log("data formInput", data);
 
     const settings = {
       method: "POST",
@@ -58,18 +58,28 @@ export default function Index() {
     };
 
     try {
-      const response = await fetch("/create_label", settings);
+      const response = await fetch(
+        // "https://print-shipping-label-server.herokuapp.com/create_label",
+        "http://localhost:1337/create_label",
+        settings
+      );
+
       const data = await response.json();
+
       setShippingLabel(data.postage_label.label_url);
+      setFormInput(initialParameters);
+      setError("");
     } catch (err) {
-      return err;
+      console.log("Error: ", err);
+      setError(
+        "Error creating label, please double check your input and try again."
+      );
     }
   };
 
   const handleSubmit = (evt: { preventDefault: () => void }) => {
     createLabel();
     evt.preventDefault();
-    setFormInput(initialParameters);
   };
 
   const handleInput = (evt: { target: { name: any; value: any } }) => {
@@ -78,174 +88,194 @@ export default function Index() {
     setFormInput({ [name]: newValue });
   };
 
-  console.log("state value: ", shippingLabel);
+  shippingLabel && console.log("state value: ", shippingLabel);
 
   return (
-    <Paper elevation={3}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          padding: "1rem",
-        }}
-      >
-        <div>
-          <TextField
-            required
-            id="senderName"
-            label="Sender Contact Name"
-            name="senderName"
-            onChange={handleInput}
-            margin="normal"
-            inputRef={textInput}
-            value={formInput.senderName}
+    <div style={{ display: "flex" }}>
+      <Paper elevation={3} style={{ width: "50%" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            padding: "1rem",
+          }}
+        >
+          <div>
+            <TextField
+              required
+              id="senderName"
+              label="Sender Contact Name"
+              name="senderName"
+              onChange={handleInput}
+              margin="normal"
+              inputRef={textInput}
+              value={formInput.senderName}
+            />
+            <TextField
+              required
+              id="fromAddress"
+              label="From Address"
+              name="fromAddress"
+              onChange={handleInput}
+              margin="normal"
+              inputRef={textInput}
+              value={formInput.fromAddress}
+            />
+          </div>
+          <div>
+            <TextField
+              required
+              id="recipentFirstName"
+              label="First Name"
+              name="recipentFirstName"
+              onChange={handleInput}
+              margin="normal"
+              inputRef={textInput}
+              value={formInput.recipentFirstName}
+            />
+            <TextField
+              required
+              id="recipentLastName"
+              label="Last Name"
+              name="recipentLastName"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.recipentLastName}
+            />
+          </div>
+          <div>
+            <TextField
+              required
+              id="address1"
+              label="Shipping Address 1"
+              name="address1"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.address1}
+            />
+            <TextField
+              required
+              id="address2"
+              label="Shipping Address 2"
+              name="address2"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.address2}
+            />
+            <TextField
+              required
+              id="city"
+              label="Shipping City"
+              name="city"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.city}
+            />
+            <TextField
+              required
+              id="state"
+              label="Shipping State"
+              name="state"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.state}
+            />
+            <TextField
+              required
+              id="postalCode"
+              label="Shipping Postal Code"
+              name="postalCode"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.postalCode}
+            />
+            <TextField
+              required
+              id="country"
+              label="Shipping Country"
+              name="country"
+              onChange={handleInput}
+              margin="normal"
+              value={formInput.country}
+            />
+          </div>
+          <div>
+            <TextField
+              required
+              id="weight"
+              label="Weight"
+              name="weight"
+              onChange={handleInput}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">lb</InputAdornment>
+                ),
+              }}
+              margin="normal"
+              value={formInput.weight}
+            />
+            <TextField
+              required
+              id="length"
+              label="Length"
+              name="length"
+              onChange={handleInput}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">in</InputAdornment>
+                ),
+              }}
+              margin="normal"
+              value={formInput.length}
+            />
+            <TextField
+              required
+              id="width"
+              label="Width"
+              name="width"
+              onChange={handleInput}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">in</InputAdornment>
+                ),
+              }}
+              margin="normal"
+              value={formInput.width}
+            />
+            <TextField
+              required
+              id="height"
+              label="Height"
+              name="height"
+              onChange={handleInput}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">in</InputAdornment>
+                ),
+              }}
+              margin="normal"
+              value={formInput.height}
+            />
+          </div>
+          <div>
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
+          </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </form>
+      </Paper>
+      <Paper elevation={3} style={{ width: "50%", marginLeft: 10 }}>
+        {shippingLabel && (
+          <img
+            style={{ width: "100%", height: "100%" }}
+            src={shippingLabel}
+            alt="shipping label"
           />
-          <TextField
-            required
-            id="fromAddress"
-            label="From Address"
-            name="fromAddress"
-            onChange={handleInput}
-            margin="normal"
-            inputRef={textInput}
-            value={formInput.fromAddress}
-          />
-        </div>
-        <div>
-          <TextField
-            required
-            id="recipentFirstName"
-            label="First Name"
-            name="recipentFirstName"
-            onChange={handleInput}
-            margin="normal"
-            inputRef={textInput}
-            value={formInput.recipentFirstName}
-          />
-          <TextField
-            required
-            id="recipentLastName"
-            label="Last Name"
-            name="recipentLastName"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.recipentLastName}
-          />
-        </div>
-        <div>
-          <TextField
-            required
-            id="address1"
-            label="Shipping Address 1"
-            name="address1"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.address1}
-          />
-          <TextField
-            required
-            id="address2"
-            label="Shipping Address 2"
-            name="address2"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.address2}
-          />
-          <TextField
-            required
-            id="city"
-            label="Shipping City"
-            name="city"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.city}
-          />
-          <TextField
-            required
-            id="state"
-            label="Shipping State"
-            name="state"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.state}
-          />
-          <TextField
-            required
-            id="postalCode"
-            label="Shipping Postal Code"
-            name="postalCode"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.postalCode}
-          />
-          <TextField
-            required
-            id="country"
-            label="Shipping Country"
-            name="country"
-            onChange={handleInput}
-            margin="normal"
-            value={formInput.country}
-          />
-        </div>
-        <div>
-          <TextField
-            required
-            id="weight"
-            label="Weight"
-            name="weight"
-            onChange={handleInput}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">lb</InputAdornment>,
-            }}
-            margin="normal"
-            value={formInput.weight}
-          />
-          <TextField
-            required
-            id="length"
-            label="Length"
-            name="length"
-            onChange={handleInput}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">in</InputAdornment>,
-            }}
-            margin="normal"
-            value={formInput.length}
-          />
-          <TextField
-            required
-            id="width"
-            label="Width"
-            name="width"
-            onChange={handleInput}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">in</InputAdornment>,
-            }}
-            margin="normal"
-            value={formInput.width}
-          />
-          <TextField
-            required
-            id="height"
-            label="Height"
-            name="height"
-            onChange={handleInput}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">in</InputAdornment>,
-            }}
-            margin="normal"
-            value={formInput.height}
-          />
-        </div>
-        <div>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-        </div>
-      </form>
-    </Paper>
+        )}
+      </Paper>
+    </div>
   );
 }

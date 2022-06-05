@@ -5,7 +5,6 @@ const easy_post_api = require("@easypost/api");
 const router = express.Router();
 
 router.post("/create_label", async (req: any, res: any) => {
-  console.log("in order_routes.ts");
   try {
     const EasyPost = new easy_post_api(
       "EZTKe960473ffce6480398abda7c6bbc7e1atDCqKdoMD20IwpRa5BqEiQ"
