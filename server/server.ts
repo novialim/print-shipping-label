@@ -1,5 +1,6 @@
 import express from "express";
 import { order_routes } from "./routes/index";
+const path = require("path");
 
 let cors = require("cors");
 
@@ -12,7 +13,7 @@ let allowCrossDomain = function (req: any, res: any, next: any) {
   );
 
   // intercept OPTIONS method
-  if ("OPTIONS" == req.method) {
+  if ("OPTIONS" === req.method) {
     res.send(200);
   } else {
     next();
@@ -21,6 +22,9 @@ let allowCrossDomain = function (req: any, res: any, next: any) {
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
 
 app.all("*", function (req, res, next) {
   var origin = req.get("origin");
@@ -41,6 +45,12 @@ app.get("/", (req, res) => {
 });
 
 app.use(order_routes);
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Shipping label app listening on port ${port}`);
