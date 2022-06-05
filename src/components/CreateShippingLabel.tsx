@@ -59,8 +59,8 @@ export default function Index() {
 
     try {
       const response = await fetch(
-        // "https://print-shipping-label-server.herokuapp.com/create_label",
-        "http://localhost:1337/create_label",
+        "https://print-shipping-label-server.herokuapp.com/create_label",
+        // "http://localhost:1337/create_label",
         settings
       );
 
