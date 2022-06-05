@@ -29,7 +29,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build",
+    "deploy": "gh-pages -d build",
     "start:server": "cd server && ts-node-dev --respawn --transpile-only ./server.ts && wait-on tcp:5000",
     "start:app": "react-app-rewired start",
     "start": "run-p --race start:server start:app",
