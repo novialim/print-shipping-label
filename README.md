@@ -1,8 +1,11 @@
-# Getting Started with Create React App
+# Print Shipping Label
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Use the EasyPost API (https://www.easypost.com/) to implement a web page where a user
+can print a USPS Shipping Label in order to mail packages.
 
-## Available Scripts
+## Getting Started
+
+Demo: [https://novialim.github.io/print-shipping-label/](https://novialim.github.io/print-shipping-label/)
 
 In the project directory, you can run:
 
