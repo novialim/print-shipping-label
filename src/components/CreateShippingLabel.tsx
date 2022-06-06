@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Paper } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export type Parameters = {
   senderName: string;
@@ -47,6 +48,7 @@ export default function Index() {
 
   const [shippingLabel, setShippingLabel] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const createLabel = async () => {
     let data = { formInput };
@@ -66,11 +68,13 @@ export default function Index() {
 
       const data = await response.json();
 
+      setIsLoading(false);
       setShippingLabel(data.postage_label.label_url);
       setFormInput(initialParameters);
       setError("");
     } catch (err) {
       console.log("Error: ", err);
+      setIsLoading(false);
       setError(
         "Error creating label, please double check your input and try again."
       );
@@ -78,6 +82,7 @@ export default function Index() {
   };
 
   const handleSubmit = (evt: { preventDefault: () => void }) => {
+    setIsLoading(true);
     createLabel();
     evt.preventDefault();
   };
@@ -283,6 +288,19 @@ export default function Index() {
         </form>
       </Paper>
       <Paper elevation={3} style={{ width: "50%", marginLeft: 10 }}>
+        {isLoading && (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress />
+          </div>
+        )}
         {shippingLabel && (
           <img
             style={{ width: "100%", height: "100%" }}
